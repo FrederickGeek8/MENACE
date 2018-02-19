@@ -3,18 +3,28 @@ import os.path
 import pickle
 
 manager = None
-testing = False
+data = None
+train = True
+sizes = 10
+init = 'uniform'
+
 if os.path.isfile('./instance.p') and input(
         'Do you want to load the previous instance? (y/n) ') == 'y':
     data = pickle.load(open('./instance.p', 'rb'))
     if input(
             'Do you want to train or test the model? (train/test) ') == 'test':
-        manager = GameManager(prev_player=data, train=False)
-        testing = True
-    else:
-        manager = GameManager(prev_player=data)
-else:
-    manager = GameManager()
+        train = False
+
+if train and data == None:
+    if input('Init? (random or uniform) [uniform]: ') != '':
+        init = 'random'
+
+    lsizes = input('Init size? [10]: ')
+    if lsizes != '':
+        sizes = int(lsizes)
+
+manager = GameManager(
+    prev_player=data, train=train, sizes=sizes, init_method=init)
 trials = int(input('Enter number of trials: '))
 
 wins = 0
@@ -35,6 +45,9 @@ while trials > 0:
 
 print("Exited with", str((wins / (wins + loss)) * 100) + "% winrate")
 
-if not testing and input(
-        "Do you want to dump this instance to disk? (y/n) ") == 'y':
-    manager.player.dump()
+if train and input("Do you want to dump this instance to disk? (y/n) ") == 'y':
+    loc = input('Location [./instance.p]: ')
+    if loc == '':
+        manager.player.dump()
+    else:
+        manager.player.dump(loc)

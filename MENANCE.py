@@ -5,12 +5,19 @@ import pickle
 class MENANCE():
     """MENANCE instance."""
 
-    def __init__(self, moves={}, init_method='uniform', groups=9, sizes=10):
-        self.moves = moves
+    def __init__(self, model, init_method='uniform', groups=9, sizes=10):
+        self.moves = {}
         self.game = []
         self.init_method = init_method
         self.groups = groups
         self.sizes = sizes
+
+        if model is not None:
+            self.moves = model.moves
+            self.init_method = model.init_method
+            self.groups = model.groups
+            self.sizes = model.sizes
+
 
     def move(self, state):
         joined = "".join(state)
@@ -46,5 +53,5 @@ class MENANCE():
 
         self.game = []
 
-    def dump(self):
-        pickle.dump(self.moves, open("instance.p", "wb"))
+    def dump(self, loc='./instance.p'):
+        pickle.dump(self, open(loc, "wb"))

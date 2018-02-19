@@ -1,8 +1,9 @@
 import matplotlib.pyplot as plt
+import matplotlib.ticker as plticker
 from GameManager import GameManager
 
-manager = GameManager()
-manager2 = GameManager(init_method='random')
+manager = GameManager(sizes=20)
+manager2 = GameManager(init_method='random', sizes=20)
 
 graph = []
 graph2 = []
@@ -45,5 +46,8 @@ for i in range(100):
     graph2.append((wins / (wins + loss)) * 100)
 
 X = [i for i in range(0, 1000 * 100, 1000)]
-line1 = plt.plot(X, graph, 'r', X, graph2, 'b')
+fig, ax = plt.subplots()
+ax.plot(X, graph, 'r', X, graph2, 'b')
+loc = plticker.MultipleLocator(base=2.0)
+ax.yaxis.set_major_locator(loc)
 plt.show()
