@@ -5,9 +5,9 @@ import random
 class GameManager:
     """docstring for GameManager."""
 
-    def __init__(self, prev_player={}, train=True):
+    def __init__(self, prev_player={}, train=True, init_method='uniform'):
         self.state = ["0" for i in range(9)]
-        self.player = MENANCE(moves=prev_player)
+        self.player = MENANCE(moves=prev_player, init_method=init_method)
         self.resigned = False
         self.train = train
 
