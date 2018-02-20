@@ -1,13 +1,13 @@
 from Game2Manager import Game2Manager
 import os.path
 import pickle
-from helper import prune
+from helpers import prune
 
 manager = None
 data = None
 train = True
 sizes = 10
-prune = -1
+prune_length = -1
 init = 'uniform'
 
 if os.path.isfile('./instance2.p') and input(
@@ -45,7 +45,7 @@ while trials > 0:
     else:
         wins += 1
     manager.reset()
-    if prune_length != -1 and manager % prune_length == 0:
+    if prune_length != -1 and trials % prune_length == 0:
         prune(manager.player)
 
     trials -= 1
