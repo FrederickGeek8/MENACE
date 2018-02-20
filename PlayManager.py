@@ -16,9 +16,11 @@ class PlayManager(GameManager):
 
         self.state[move] = "1"
 
-    def move(self, x, y):
-        if self.state[x + 3 * y] == "0":
-            self.state[x + 3 * y] = "2"
+    def move(self, x, y=None):
+        if y is not None:
+            x = x + 3 * y
+        if self.state[x] == "0":
+            self.state[x] = "2"
             return True
 
         return False

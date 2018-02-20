@@ -1,13 +1,13 @@
 import matplotlib.pyplot as plt
 import matplotlib.ticker as plticker
-from GameManager import GameManager
+from Game2Manager import Game2Manager
 
-manager = GameManager(sizes=10)
-manager2 = GameManager(init_method='random', sizes=10)
+manager = Game2Manager(sizes=10)
+manager2 = Game2Manager(init_method='random', sizes=10)
 
 graph = []
 graph2 = []
-repeat = 250
+repeat = 500
 for i in range(repeat):
     trials = 1000
     wins = 0
@@ -19,7 +19,7 @@ for i in range(repeat):
             print("MENANCE has died")
             break
 
-        if manager.check_win() == 2:
+        if manager.check_win() == 1:
             loss += 1
         else:
             wins += 1
@@ -40,7 +40,7 @@ for i in range(repeat):
             print("MENANCE has died")
             break
 
-        if manager2.check_win() == 2:
+        if manager2.check_win() == 1:
             loss += 1
         else:
             wins += 1

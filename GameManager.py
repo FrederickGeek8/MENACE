@@ -87,6 +87,7 @@ class GameManager:
 
     def reset(self):
         self.state = ["0" for i in range(9)]
+        self.resigned = False
 
     def __str__(self):
         joined = " ".join(self.state)

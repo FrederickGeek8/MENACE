@@ -18,7 +18,6 @@ class MENANCE():
             self.groups = model.groups
             self.sizes = model.sizes
 
-
     def move(self, state):
         joined = "".join(state)
         if joined not in self.moves:
@@ -47,9 +46,6 @@ class MENANCE():
         else:
             for state, move in self.game:
                 self.moves[state].remove(move)
-
-        if len(self.moves["".join(['0' for i in range(9)])]) == 0:
-            raise Exception("MENANCE has died")
 
         self.game = []
 

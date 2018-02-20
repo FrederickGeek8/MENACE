@@ -27,7 +27,7 @@ class Box:
 
     def choose(self):
         if len(self.state) == 0:
-            print('dead choice')
+            # print('dead choice')
             return -1
         return random.choice(self.state)
 
