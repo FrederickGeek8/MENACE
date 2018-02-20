@@ -48,6 +48,7 @@ for i in range(100):
 X = [i for i in range(0, 1000 * 100, 1000)]
 fig, ax = plt.subplots()
 ax.plot(X, graph, 'r', X, graph2, 'b')
-loc = plticker.MultipleLocator(base=2.0)
+mmin, mmax = min(min(graph), min(graph2)), max(max(graph), max(graph2))
+loc = plticker.MultipleLocator(base=(mmax - mmin) // 10)
 ax.yaxis.set_major_locator(loc)
 plt.show()

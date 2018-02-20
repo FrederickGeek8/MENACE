@@ -15,7 +15,7 @@ if os.path.isfile('./instance.p') and input(
             'Do you want to train or test the model? (train/test) ') == 'test':
         train = False
 
-if train and data == None:
+if train and data is None:
     if input('Init? (random or uniform) [uniform]: ') != '':
         init = 'random'
 
