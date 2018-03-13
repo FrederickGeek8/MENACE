@@ -1,6 +1,6 @@
 from GameManager import GameManager
 from MENANCE import MENANCE
-
+from helpers import prune
 
 class AdversarialManager(GameManager):
     """docstring for AdversarialManager."""
@@ -71,6 +71,12 @@ class AdversarialManager(GameManager):
             return 1
 
         return super(AdversarialManager, self).check_win()
+
+    def prune(self, p1=False, p2=True):
+        if p1:
+            prune(self.player)
+        if p2:
+            prune(self.player2)
 
     def reset(self):
         super(AdversarialManager, self).reset()

@@ -3,15 +3,24 @@ import matplotlib.ticker as plticker
 from GameManager import GameManager
 from Game2Manager import Game2Manager
 from AdversarialManager import AdversarialManager
-from helpers import test_p1, test_p2
+from helpers import test_p1, test_p2, prune
 # train some people
 train_samples = 100
 train_length = 2500
+prune_length = -1
+prune_p1 = False
 
-print("Initalizing random P1 with default parameters")
-manager = GameManager(init_method='random')
+tmp = input('Prune interval [-1]: ')
+if tmp != '':
+    prune_length = int(tmp)
+
+if input('Prune P1? (y/n) ') == 'y':
+    prune_p1 = True
+
+print("Initalizing P1 with default parameters")
+manager = GameManager(init_method="random")
 print("Initalizing P2 with default parameters")
-manager2 = Game2Manager(init_method='uniform')
+manager2 = Game2Manager()
 
 print("Training P1...")
 p1_graph = []
@@ -31,6 +40,8 @@ for i in range(train_samples):
         else:
             wins += 1
         manager.reset()
+        if prune_p1 and prune_length != -1 and trials % prune_length == 0:
+            prune(manager.player)
         trials -= 1
     p1_graph.append((wins / (wins + loss)) * 100)
     if i % 20 == 0:
@@ -54,8 +65,12 @@ for i in range(train_samples):
         else:
             wins += 1
         manager2.reset()
+        if prune_length != -1 and trials % prune_length == 0:
+            prune(manager2.player)
+
         trials -= 1
     p2_graph.append((wins / (wins + loss)) * 100)
+
     if i % 20 == 0:
         print("P2 Trial", i)
 
@@ -86,11 +101,15 @@ for i in range(fight_samples):
         else:
             draw += 1
         fight_manager.reset()
+
+        if prune_length != -1 and trials % prune_length == 0:
+            fight_manager.prune()
         trials -= 1
     p1_agraph.append((player1 / (player1 + player2)) * 100)
     p1_improv.append(test_p1(fight_manager.player))
     p2_agraph.append((player2 / (player1 + player2)) * 100)
     p2_improv.append(test_p2(fight_manager.player2))
+
     if i % 20 == 0:
         print("Fight Trial", i)
 

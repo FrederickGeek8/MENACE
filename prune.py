@@ -1,5 +1,6 @@
 import pickle
 import math
+import progressbar
 
 loc = input('Enter the path to the file you want to prune: ')
 data = None
@@ -11,9 +12,12 @@ except Exception as e:
 menance = pickle.load(data)
 done = 0
 length = len(menance.moves)
+pbartmp = progressbar.ProgressBar(maxval=1).default_widgets()
+pbar = progressbar.ProgressBar(
+    widgets=pbartmp[:], maxval=length)
+del pbartmp
 for key in menance.moves:
     done += 1
-    print("Pruning Box " + str(done) + "/" + str(length))
     state = menance.moves[key].state
     if len(state) > 0:
         unique = list(set(state))
@@ -28,5 +32,6 @@ for key in menance.moves:
                 tmp.append(orig)
 
         menance.moves[key].state = tmp
-
+    pbar.update(done)
+pbar.finish()
 pickle.dump(menance, open(loc, "wb"))

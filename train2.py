@@ -1,6 +1,7 @@
 from Game2Manager import Game2Manager
 import os.path
 import pickle
+import progressbar
 from helpers import prune
 
 manager = None
@@ -33,8 +34,12 @@ if train:
 
 manager = Game2Manager(
     prev_player=data, train=train, sizes=sizes, init_method=init)
-trials = int(input('Enter number of trials: '))
-
+trials_ = int(input('Enter number of trials: '))
+trials = trials_
+pbartmp = progressbar.ProgressBar(maxval=1).default_widgets()
+pbar = progressbar.ProgressBar(
+    widgets=pbartmp[:], maxval=trials)
+del pbartmp
 wins = 0
 loss = 0
 while trials > 0:
@@ -45,11 +50,12 @@ while trials > 0:
     else:
         wins += 1
     manager.reset()
+
     if prune_length != -1 and trials % prune_length == 0:
         prune(manager.player)
-
+    pbar.update(trials_ - trials)
     trials -= 1
-
+pbar.finish()
 print("Exited with", str((wins / (wins + loss)) * 100) + "% winrate")
 
 if train and input("Do you want to dump this instance to disk? (y/n) ") == 'y':

@@ -1,4 +1,5 @@
 from AdversarialManager import AdversarialManager
+import progressbar
 import os.path
 import pickle
 
@@ -6,6 +7,8 @@ train = False
 players = [None, None]
 init_method = ['random', 'uniform']
 sizes = [10, 10]
+prune_length = -1
+
 if os.path.isfile('./instance.p') and os.path.isfile(
         './instance2.p') and input('Load players? (y/n) ') == 'y':
     data = pickle.load(open('./instance.p', 'rb'))
@@ -33,11 +36,20 @@ else:
     if lsizes != '':
         sizes[1] = int(lsizes)
 
+if train:
+    tmp = input('Prune interval [-1]: ')
+    if tmp != '':
+        prune_length = int(tmp)
+
 manager = AdversarialManager(
     players=players, train=train, init_method=init_method, sizes=sizes)
 
-trials = int(input('Enter number of trials: '))
-
+trials_ = int(input('Enter number of trials: '))
+trials = trials_
+pbartmp = progressbar.ProgressBar(maxval=1).default_widgets()
+pbar = progressbar.ProgressBar(
+    widgets=pbartmp[:], maxval=trials)
+del pbartmp
 player1 = 0
 player2 = 0
 draw = 0
@@ -52,8 +64,13 @@ while trials > 0:
     else:
         draw += 1
     manager.reset()
+
+    if prune_length != -1 and trials % prune_length == 0:
+        manager.prune()
+    pbar.update(trials_ - trials)
     trials -= 1
 
+pbar.finish()
 print("Player 1 exited with a",
       str((player1 / (player1 + player2)) * 100) + "% winrate.")
 print("Player 2 exited with a",

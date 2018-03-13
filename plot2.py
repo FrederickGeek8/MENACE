@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.ticker as plticker
 from Game2Manager import Game2Manager
+import progressbar
 
 manager = Game2Manager(sizes=10)
 manager2 = Game2Manager(init_method='random', sizes=10)
