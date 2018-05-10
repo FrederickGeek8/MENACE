@@ -1,5 +1,5 @@
 # MENACE
-Basic ML Playground with Matchboxes
+Basic ML Playground with Matchboxes. This repository was not really supposed to be public, however, recently I have decided that it might as well be out there. Sorry for the mess with the files, if I have time I will redo the directory structure.
 
 ## Requirements
 Run `pip install -r requirements.txt` to install dependencies.
